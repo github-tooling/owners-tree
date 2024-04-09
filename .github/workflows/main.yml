@@ -6,11 +6,15 @@ on:
     branches:
       - main
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -20,14 +24,15 @@ jobs:
           cache: 'pnpm'
       - name: Install modules
         run: pnpm install
+      - name: Check for automated commit
+        run: echo $(git diff-tree --no-commit-id --name-only -r HEAD)
       - name: Check changed files
         uses: actions/github-script@v6
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
         with:
           script: |
-            const { execSync } = require('child_process')
-            const { commits } = context.payload.pull_request
-            console.log(commits)
-            const rawFiles = execSync(`git diff --name-only HEAD HEAD~${commits}`).toString()
-            const files = rawFiles.split('\n').filter(Boolean)
+            const script = require('.github/scripts/main.js')
+            script({github, context})
             
-            console.log(files)
