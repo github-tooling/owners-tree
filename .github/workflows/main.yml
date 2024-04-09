@@ -50,4 +50,6 @@ jobs:
                 console.log(Object.keys(tsGraph.getTreeByFile(entries).flatTree));
               }
             }
+            
+            execSync(`gh pr edit --add-reviewer andriyor`)
 
