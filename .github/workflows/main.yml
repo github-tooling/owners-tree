@@ -21,6 +21,8 @@ jobs:
           cache: 'pnpm'
       - name: Install modules
         run: pnpm install
+      - name: Check for automated commit
+        run: git diff-tree --no-commit-id --name-only -r HEAD
       - name: Check changed files
         uses: actions/github-script@v6
         with:
