@@ -26,7 +26,7 @@ jobs:
             const { execSync } = require('child_process')
             const { commits } = context.payload.pull_request
             console.log(commits)
-            const rawFiles = execSync(`git diff --name-only HEAD HEAD~${commits}`).toString()
+            const rawFiles = execSync(`git diff-tree --no-commit-id --name-only -r HEAD`).toString()
             const files = rawFiles.split('\n').filter(Boolean)
             
             console.log(files)
