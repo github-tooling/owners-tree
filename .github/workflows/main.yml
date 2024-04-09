@@ -53,5 +53,6 @@ jobs:
                 const paths = Object.keys(tsGraph.getTreeByFile(entries).flatTree);
                 if (changedFiles.some(file => paths.includes(file))) {
                   execSync(`gh pr edit ${process.env.PR_NUMBER} --add-reviewer ${owner.team}`)
+                }
               }
             }
