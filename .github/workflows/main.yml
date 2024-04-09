@@ -32,27 +32,6 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
         with:
           script: |
-            const { execSync } = require('child_process')
-            const { commits } = context.payload.pull_request
-            console.log(commits)
-            const rawFiles = execSync(`git diff --name-only HEAD HEAD~${commits}`).toString()
-            console.log('rawFiles', rawFiles)
-            const changedFiles = rawFiles.split('\n').filter(Boolean)
+            const script = require('.github/scripts/main.js')
+            script({github, context})
             
-            console.log(changedFiles)
-            
-            const fs = require('fs');
-  
-            const tsGraph = require('@andriyorehov/ts-graph');
-            
-            const owners = fs.readFileSync('owners.json', 'utf8');
-            const ownersObj = JSON.parse(owners);
-            
-            for (const owner of ownersObj) {
-              for (const entries of owner.owns) {
-                const paths = Object.keys(tsGraph.getTreeByFile(entries).flatTree);
-                if (changedFiles.some(file => paths.includes(file))) {
-                  execSync(`gh pr edit ${process.env.PR_NUMBER} --add-reviewer ${owner.team}`)
-                }
-              }
-            }
