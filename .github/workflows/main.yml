@@ -26,6 +26,8 @@ jobs:
         run: echo $(git diff-tree --no-commit-id --name-only -r HEAD)
       - name: Check changed files
         uses: actions/github-script@v6
+        env:
+          GH_TOKEN: ${{ github.token }}
         with:
           script: |
             const { execSync } = require('child_process')
