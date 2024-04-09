@@ -1,10 +1,10 @@
 [
   {
-    "team": "entry1",
+    "team": "github-tooling/entry1",
     "owns": ["main/entry1/main.ts"]
   },
   {
-    "team": "entry2",
+    "team": "github-tooling/entry2",
     "owns": ["main/entry2/main.ts"]
   }
 ]

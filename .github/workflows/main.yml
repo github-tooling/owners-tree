@@ -37,9 +37,9 @@ jobs:
             console.log(commits)
             const rawFiles = execSync(`git diff --name-only HEAD HEAD~${commits}`).toString()
             console.log('rawFiles', rawFiles)
-            const files = rawFiles.split('\n').filter(Boolean)
+            const changedFiles = rawFiles.split('\n').filter(Boolean)
             
-            console.log(files)
+            console.log(changedFiles)
             
             const fs = require('fs');
   
@@ -50,8 +50,8 @@ jobs:
             
             for (const owner of ownersObj) {
               for (const entries of owner.owns) {
-                console.log(Object.keys(tsGraph.getTreeByFile(entries).flatTree));
+                const paths = Object.keys(tsGraph.getTreeByFile(entries).flatTree);
+                if (changedFiles.some(file => paths.includes(file))) {
+                  execSync(`gh pr edit ${process.env.PR_NUMBER} --add-reviewer ${owner.team}`)
               }
             }
-            
-            execSync(`gh pr edit ${process.env.PR_NUMBER} --add-reviewer github-tooling/entry1`)
