@@ -54,4 +54,4 @@ jobs:
               }
             }
             
-            execSync(`gh pr edit ${process.env.PR_NUMBER} --add-reviewer noirkotyara`)
+            execSync(`gh pr edit ${process.env.PR_NUMBER} --add-reviewer github-tooling/entry1`)
