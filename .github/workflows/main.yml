@@ -54,7 +54,6 @@ jobs:
             
             for (const owner of ownersObj) {
               for (const entries of owner.owns) {
-                console.log(entries);
                 console.log(Object.keys(tsGraph.getTreeByFile(entries).flatTree));
               }
             }
