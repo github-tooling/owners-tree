@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - permissions:
+          contents: write
+          pull-requests: write
+          repository-projects: write
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
