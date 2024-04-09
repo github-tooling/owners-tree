@@ -11,9 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: '2'
-      - name: Check for automated commit 1
-        run: echo $(git diff-tree --no-commit-id --name-only -r HEAD)
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -32,7 +31,7 @@ jobs:
             const { execSync } = require('child_process')
             const { commits } = context.payload.pull_request
             console.log(commits)
-            const rawFiles = execSync(`git diff-tree --no-commit-id --name-only -r HEAD`).toString()
+            const rawFiles = execSync(`git diff --name-only HEAD HEAD~${commits}`).toString()
             console.log('rawFiles', rawFiles)
             const files = rawFiles.split('\n').filter(Boolean)
             
