@@ -28,6 +28,7 @@ jobs:
         uses: actions/github-script@v6
         env:
           GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.number }}
         with:
           script: |
             const { execSync } = require('child_process')
@@ -53,5 +54,5 @@ jobs:
               }
             }
             
-            execSync(`gh pr edit --add-reviewer andriyor`)
+            execSync(`gh pr edit ${process.env.PR_NUMBER} --add-reviewer andriyor`)
 
